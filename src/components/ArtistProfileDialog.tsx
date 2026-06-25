@@ -5,15 +5,13 @@ import type { Artist } from "@/lib/artists";
 import { ChatDialog } from "./ChatDialog";
 import { noorSay } from "./Noor";
 
-export function ArtistProfileDialog({ artist, onClose }: { artist: Artist; onClose: () => void }) {
+export function ArtistProfileDialog({ artist, onClose, onBook }: { artist: Artist; onClose: () => void; onBook?: (a: Artist) => void }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
 
   const book = () => {
-    setConfirmed(true);
-    noorSay(`CONGRATULATIONS BRIDE!! 🎊 ${artist.name} is officially yours!`);
-    setTimeout(() => { setConfirmed(false); onClose(); }, 3500);
+    if (onBook) { onBook(artist); return; }
+    onClose();
   };
 
   return (
@@ -194,16 +192,6 @@ export function ArtistProfileDialog({ artist, onClose }: { artist: Artist; onClo
             onClick={() => setLightbox(null)}
           >
             <img src={lightbox} alt="" className="max-h-[92vh] max-w-full rounded-2xl shadow-2xl" />
-          </motion.div>
-        )}
-        {confirmed && (
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] grid place-items-center pointer-events-none">
-            <div className="glass gold-border rounded-3xl px-8 py-6 text-center">
-              <p className="text-5xl mb-2">🎊</p>
-              <p className="font-display text-2xl">Booking Confirmed!</p>
-              <p className="text-sm opacity-80 mt-1">Your trial reminder will arrive soon 💕</p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
