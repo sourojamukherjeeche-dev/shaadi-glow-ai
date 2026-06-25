@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import noorImg from "@/assets/noor.png.asset.json";
+import noorImgUrl from "@/assets/noor.png";
 
 type Bubble = { id: number; text: string };
 let bubbleId = 0;
@@ -12,7 +12,7 @@ export function NoorAvatar({ size = 72 }: { size?: number }) {
       style={{ width: size, height: size, animation: "breathe 3.5s ease-in-out infinite" }}
     >
       <img
-        src={noorImg.url}
+        src={noorImgUrl}
         alt="Noor — your AI bridal guide"
         width={size}
         height={size}
