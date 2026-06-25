@@ -5,15 +5,13 @@ import type { Artist } from "@/lib/artists";
 import { ChatDialog } from "./ChatDialog";
 import { noorSay } from "./Noor";
 
-export function ArtistProfileDialog({ artist, onClose }: { artist: Artist; onClose: () => void }) {
+export function ArtistProfileDialog({ artist, onClose, onBook }: { artist: Artist; onClose: () => void; onBook?: (a: Artist) => void }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
 
   const book = () => {
-    setConfirmed(true);
-    noorSay(`CONGRATULATIONS BRIDE!! 🎊 ${artist.name} is officially yours!`);
-    setTimeout(() => { setConfirmed(false); onClose(); }, 3500);
+    if (onBook) { onBook(artist); return; }
+    onClose();
   };
 
   return (
